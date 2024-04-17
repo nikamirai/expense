@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ExpenseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ExpenseUser">
+          <Key>
+            <PropertyRef Name="IDExpenseUser" />
+          </Key>
+          <Property Name="IDExpenseUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DatePurchase" Type="date" Nullable="false" />
+          <Property Name="IDTypeOfExpense" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Amount" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TypeOfExpense">
+          <Key>
+            <PropertyRef Name="IDTypeOfExpense" />
+          </Key>
+          <Property Name="IDTypeOfExpense" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameExpense" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSystem">
+          <Key>
+            <PropertyRef Name="IDUserSystem" />
+          </Key>
+          <Property Name="IDUserSystem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginUser" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PasswordUser" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ExpenseUser_TypeOfExpense">
+          <End Role="TypeOfExpense" Type="Self.TypeOfExpense" Multiplicity="1" />
+          <End Role="ExpenseUser" Type="Self.ExpenseUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfExpense">
+              <PropertyRef Name="IDTypeOfExpense" />
+            </Principal>
+            <Dependent Role="ExpenseUser">
+              <PropertyRef Name="IDTypeOfExpense" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ExpenseModelContainer">
+          <EntitySet Name="ExpenseUser" EntityType="Self.ExpenseUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeOfExpense" EntityType="Self.TypeOfExpense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSystem" EntityType="Self.UserSystem" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ExpenseUser_TypeOfExpense" Association="Self.FK_ExpenseUser_TypeOfExpense">
+            <End Role="TypeOfExpense" EntitySet="TypeOfExpense" />
+            <End Role="ExpenseUser" EntitySet="ExpenseUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExpenseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ExpenseUser">
+          <Key>
+            <PropertyRef Name="IDExpenseUser" />
+          </Key>
+          <Property Name="IDExpenseUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DatePurchase" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IDTypeOfExpense" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Double" Nullable="false" />
+          <NavigationProperty Name="TypeOfExpense" Relationship="Self.FK_ExpenseUser_TypeOfExpense" FromRole="ExpenseUser" ToRole="TypeOfExpense" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TypeOfExpense">
+          <Key>
+            <PropertyRef Name="IDTypeOfExpense" />
+          </Key>
+          <Property Name="IDTypeOfExpense" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameExpense" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ExpenseUser" Relationship="Self.FK_ExpenseUser_TypeOfExpense" FromRole="TypeOfExpense" ToRole="ExpenseUser" />
+        </EntityType>
+        <EntityType Name="UserSystem">
+          <Key>
+            <PropertyRef Name="IDUserSystem" />
+          </Key>
+          <Property Name="IDUserSystem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordUser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ExpenseUser_TypeOfExpense">
+          <End Role="TypeOfExpense" Type="Self.TypeOfExpense" Multiplicity="1" />
+          <End Role="ExpenseUser" Type="Self.ExpenseUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfExpense">
+              <PropertyRef Name="IDTypeOfExpense" />
+            </Principal>
+            <Dependent Role="ExpenseUser">
+              <PropertyRef Name="IDTypeOfExpense" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExpenseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ExpenseUser" EntityType="Self.ExpenseUser" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TypeOfExpense" EntityType="Self.TypeOfExpense" />
+          <EntitySet Name="UserSystem" EntityType="Self.UserSystem" />
+          <AssociationSet Name="FK_ExpenseUser_TypeOfExpense" Association="Self.FK_ExpenseUser_TypeOfExpense">
+            <End Role="TypeOfExpense" EntitySet="TypeOfExpense" />
+            <End Role="ExpenseUser" EntitySet="ExpenseUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ExpenseModelContainer" CdmEntityContainer="ExpenseEntities">
+          <EntitySetMapping Name="ExpenseUser">
+            <EntityTypeMapping TypeName="ExpenseModel.ExpenseUser">
+              <MappingFragment StoreEntitySet="ExpenseUser">
+                <ScalarProperty Name="IDExpenseUser" ColumnName="IDExpenseUser" />
+                <ScalarProperty Name="DatePurchase" ColumnName="DatePurchase" />
+                <ScalarProperty Name="IDTypeOfExpense" ColumnName="IDTypeOfExpense" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ExpenseModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeOfExpense">
+            <EntityTypeMapping TypeName="ExpenseModel.TypeOfExpense">
+              <MappingFragment StoreEntitySet="TypeOfExpense">
+                <ScalarProperty Name="IDTypeOfExpense" ColumnName="IDTypeOfExpense" />
+                <ScalarProperty Name="NameExpense" ColumnName="NameExpense" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSystem">
+            <EntityTypeMapping TypeName="ExpenseModel.UserSystem">
+              <MappingFragment StoreEntitySet="UserSystem">
+                <ScalarProperty Name="IDUserSystem" ColumnName="IDUserSystem" />
+                <ScalarProperty Name="LoginUser" ColumnName="LoginUser" />
+                <ScalarProperty Name="PasswordUser" ColumnName="PasswordUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
